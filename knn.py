@@ -164,10 +164,13 @@ def run_task(X, y, data_set):
     runs = 100
     neighbors = [1, 3, 5, 7, 9]
 
-
     best_true_error = np.inf
     best_p = None
     best_k = None
+
+    best_empirical_error = np.inf
+    best_p_of_empirical_error = None
+    best_k_of_empirical_error = None
 
     for p in [1, 2, np.inf]:
         for k in neighbors:
@@ -194,7 +197,16 @@ def run_task(X, y, data_set):
                 best_p = p
                 best_k = k
 
-    print(f"\nBest Parameters with p: {best_p}, k: {best_k}, True Error: {np.round(best_true_error, 4)}\n")
+            if avg_empirical_errors < best_empirical_error:
+                best_empirical_error = avg_empirical_errors
+                best_p_of_empirical_error = p
+                best_k_of_empirical_error = k
+
+    print(
+        f"\nBest parameters of true_errors with p: {best_p}, k: {best_k}, True Error: {np.round(best_true_error, 4)}")
+    print(
+        f"Best parameters of empirical errors with p: {best_p_of_empirical_error}, k: {best_k_of_empirical_error},"
+        f" Empirical Errors: {np.round(best_empirical_error, 4)}")
 
 
 if __name__ == '__main__':
@@ -204,50 +216,51 @@ if __name__ == '__main__':
     X, y = load_data('dataset/circle_separator.txt', False)
     run_task(X, y, 'circle_separator')
 
-
-
 """
 -----run knn on haberman data set--------------- 
-p: 1, k: 1, Average Empirical Errors: 0.0092, Average True Error: 0.3389, Difference between them: -0.3297 
-p: 1, k: 3, Average Empirical Errors: 0.168, Average True Error: 0.2971, Difference between them: -0.129 
-p: 1, k: 5, Average Empirical Errors: 0.2029, Average True Error: 0.2767, Difference between them: -0.0737 
-p: 1, k: 7, Average Empirical Errors: 0.2162, Average True Error: 0.2673, Difference between them: -0.051 
-p: 1, k: 9, Average Empirical Errors: 0.2208, Average True Error: 0.2605, Difference between them: -0.0397 
-p: 2, k: 1, Average Empirical Errors: 0.0094, Average True Error: 0.3243, Difference between them: -0.3149 
-p: 2, k: 3, Average Empirical Errors: 0.1639, Average True Error: 0.3018, Difference between them: -0.1378 
-p: 2, k: 5, Average Empirical Errors: 0.2052, Average True Error: 0.2782, Difference between them: -0.073 
-p: 2, k: 7, Average Empirical Errors: 0.2184, Average True Error: 0.2625, Difference between them: -0.0442 
-p: 2, k: 9, Average Empirical Errors: 0.2194, Average True Error: 0.2628, Difference between them: -0.0434 
-p: inf, k: 1, Average Empirical Errors: 0.0093, Average True Error: 0.3385, Difference between them: -0.3292 
-p: inf, k: 3, Average Empirical Errors: 0.164, Average True Error: 0.2939, Difference between them: -0.1299 
-p: inf, k: 5, Average Empirical Errors: 0.2014, Average True Error: 0.2692, Difference between them: -0.0678 
-p: inf, k: 7, Average Empirical Errors: 0.2075, Average True Error: 0.2654, Difference between them: -0.0578 
-p: inf, k: 9, Average Empirical Errors: 0.2209, Average True Error: 0.2551, Difference between them: -0.0342 
+p: 1, k: 1, Average Empirical Errors: 0.0095, Average True Error: 0.3431, Difference between them: -0.3337 
+p: 1, k: 3, Average Empirical Errors: 0.1691, Average True Error: 0.2945, Difference between them: -0.1254 
+p: 1, k: 5, Average Empirical Errors: 0.2022, Average True Error: 0.2734, Difference between them: -0.0712 
+p: 1, k: 7, Average Empirical Errors: 0.218, Average True Error: 0.2603, Difference between them: -0.0424 
+p: 1, k: 9, Average Empirical Errors: 0.2244, Average True Error: 0.2608, Difference between them: -0.0363 
+p: 2, k: 1, Average Empirical Errors: 0.0103, Average True Error: 0.3225, Difference between them: -0.3122 
+p: 2, k: 3, Average Empirical Errors: 0.1631, Average True Error: 0.2956, Difference between them: -0.1325 
+p: 2, k: 5, Average Empirical Errors: 0.2044, Average True Error: 0.2752, Difference between them: -0.0708 
+p: 2, k: 7, Average Empirical Errors: 0.2144, Average True Error: 0.2652, Difference between them: -0.0507 
+p: 2, k: 9, Average Empirical Errors: 0.2203, Average True Error: 0.2586, Difference between them: -0.0382 
+p: inf, k: 1, Average Empirical Errors: 0.0078, Average True Error: 0.3351, Difference between them: -0.3273 
+p: inf, k: 3, Average Empirical Errors: 0.1642, Average True Error: 0.2888, Difference between them: -0.1245 
+p: inf, k: 5, Average Empirical Errors: 0.1984, Average True Error: 0.2752, Difference between them: -0.0767 
+p: inf, k: 7, Average Empirical Errors: 0.2126, Average True Error: 0.2589, Difference between them: -0.0463 
+p: inf, k: 9, Average Empirical Errors: 0.2228, Average True Error: 0.2581, Difference between them: -0.0353 
 
-Best Parameters with p: inf, k: 9, True Error: 0.2551
-
+Best parameters of true_errors with p: inf, k: 9, True Error: 0.2581
+Best parameters of empirical errors with p: inf, k: 1, Empirical Errors: 0.0078
 
 -----run knn on circle_separator data set--------------- 
-p: 1, k: 1, Average Empirical Errors: 0.0, Average True Error: 0.0707, Difference between them: -0.0707 
-p: 1, k: 3, Average Empirical Errors: 0.0315, Average True Error: 0.0935, Difference between them: -0.062 
-p: 1, k: 5, Average Empirical Errors: 0.0591, Average True Error: 0.1093, Difference between them: -0.0503 
-p: 1, k: 7, Average Empirical Errors: 0.0695, Average True Error: 0.1283, Difference between them: -0.0588 
-p: 1, k: 9, Average Empirical Errors: 0.0773, Average True Error: 0.1423, Difference between them: -0.0649 
-p: 2, k: 1, Average Empirical Errors: 0.0, Average True Error: 0.0681, Difference between them: -0.0681 
-p: 2, k: 3, Average Empirical Errors: 0.0317, Average True Error: 0.0827, Difference between them: -0.0509 
-p: 2, k: 5, Average Empirical Errors: 0.0492, Average True Error: 0.1009, Difference between them: -0.0517 
-p: 2, k: 7, Average Empirical Errors: 0.0676, Average True Error: 0.1196, Difference between them: -0.052 
-p: 2, k: 9, Average Empirical Errors: 0.0904, Average True Error: 0.1507, Difference between them: -0.0603 
-p: inf, k: 1, Average Empirical Errors: 0.0, Average True Error: 0.0771, Difference between them: -0.0771 
-p: inf, k: 3, Average Empirical Errors: 0.0339, Average True Error: 0.0865, Difference between them: -0.0527 
-p: inf, k: 5, Average Empirical Errors: 0.0508, Average True Error: 0.0981, Difference between them: -0.0473 
-p: inf, k: 7, Average Empirical Errors: 0.0757, Average True Error: 0.1305, Difference between them: -0.0548 
-p: inf, k: 9, Average Empirical Errors: 0.0951, Average True Error: 0.1571, Difference between them: -0.062 
+p: 1, k: 1, Average Empirical Errors: 0.0, Average True Error: 0.0667, Difference between them: -0.0667 
+p: 1, k: 3, Average Empirical Errors: 0.0316, Average True Error: 0.0944, Difference between them: -0.0628 
+p: 1, k: 5, Average Empirical Errors: 0.0505, Average True Error: 0.1109, Difference between them: -0.0604 
+p: 1, k: 7, Average Empirical Errors: 0.0723, Average True Error: 0.1307, Difference between them: -0.0584 
+p: 1, k: 9, Average Empirical Errors: 0.0817, Average True Error: 0.1372, Difference between them: -0.0555 
+p: 2, k: 1, Average Empirical Errors: 0.0, Average True Error: 0.0652, Difference between them: -0.0652 
+p: 2, k: 3, Average Empirical Errors: 0.032, Average True Error: 0.0859, Difference between them: -0.0539 
+p: 2, k: 5, Average Empirical Errors: 0.0507, Average True Error: 0.0957, Difference between them: -0.0451 
+p: 2, k: 7, Average Empirical Errors: 0.0663, Average True Error: 0.1189, Difference between them: -0.0527 
+p: 2, k: 9, Average Empirical Errors: 0.0853, Average True Error: 0.1435, Difference between them: -0.0581 
+p: inf, k: 1, Average Empirical Errors: 0.0, Average True Error: 0.0743, Difference between them: -0.0743 
+p: inf, k: 3, Average Empirical Errors: 0.0313, Average True Error: 0.0776, Difference between them: -0.0463 
+p: inf, k: 5, Average Empirical Errors: 0.0504, Average True Error: 0.1021, Difference between them: -0.0517 
+p: inf, k: 7, Average Empirical Errors: 0.0673, Average True Error: 0.1359, Difference between them: -0.0685 
+p: inf, k: 9, Average Empirical Errors: 0.0928, Average True Error: 0.1471, Difference between them: -0.0543 
 
-Best Parameters with p: 2, k: 1, True Error: 0.0681
-
+Best parameters of true_errors with p: 2, k: 1, True Error: 0.0652
+Best parameters of empirical errors with p: 1, k: 1, Empirical Errors: 0.0
 
 Process finished with exit code 0
+
+
+
 
 
 """
